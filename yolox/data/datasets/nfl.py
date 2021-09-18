@@ -29,7 +29,7 @@ class NFLDataset(Dataset):
         self.nfl = COCO(os.path.join(self.data_dir, "annotations", self.json_file))
         self.ids = self.nfl.getImgIds() #Image IDs
         self.class_ids = sorted(self.nfl.getCatIds()) #Get class ids 
-        cats = self.nfl.loadCats(self.coco.getCatIds())
+        cats = self.nfl.loadCats(self.nfl.getCatIds())
         self._classes = tuple([c["name"] for c in cats])#Get class names
         self.imgs = None
         self.name = name

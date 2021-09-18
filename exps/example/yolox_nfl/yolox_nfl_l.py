@@ -15,7 +15,7 @@ class Exp(MyExp):
         self.depth = 1.0
         self.width = 1.0
         self.warmup_epochs = 2
-        self.input_size = (720,1280)
+        self.input_size = (704,704)
 
         # ---------- transform config ------------ #
         self.max_epochs = 50
@@ -32,12 +32,13 @@ class Exp(MyExp):
         self.print_interval = 1
         self.eval_interval = 1
         # -----------------  testing config ------------------ #
-        self.test_size = (720,1280)
+        self.test_size = (704,704)
         self.test_conf = 0.01
         self.nmsthre = 0.35
 
     def get_data_loader(self, batch_size, is_distributed, no_aug=False, cache_img=False):
         from yolox.data import (
+            NFLDataset,
             TrainTransform,
             YoloBatchSampler,
             DataLoader,
@@ -45,7 +46,6 @@ class Exp(MyExp):
             MosaicDetection,
             worker_init_reset_seed,
         )
-        from yolox.data import 
         from yolox.utils import (
             wait_for_the_master,
             get_local_rank,
