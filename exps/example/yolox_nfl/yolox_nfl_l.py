@@ -116,6 +116,7 @@ class Exp(MyExp):
             data_dir=self.data_dir,
             json_file=self.val_ann,
             img_size=self.test_size,
+            name = 'valid',
             preproc=ValTransform(legacy=legacy),
         )
 
