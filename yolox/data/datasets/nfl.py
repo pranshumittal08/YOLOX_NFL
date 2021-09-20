@@ -26,10 +26,10 @@ class NFLDataset(Dataset):
         self.data_dir = data_dir
         self.json_file = json_file
 
-        self.nfl = COCO(os.path.join(self.data_dir, "annotations", self.json_file))
-        self.ids = self.nfl.getImgIds() #Image IDs
-        self.class_ids = sorted(self.nfl.getCatIds()) #Get class ids 
-        cats = self.nfl.loadCats(self.nfl.getCatIds())
+        self.coco = COCO(os.path.join(self.data_dir, "annotations", self.json_file))
+        self.ids = self.coco.getImgIds() #Image IDs
+        self.class_ids = sorted(self.coco.getCatIds()) #Get class ids 
+        cats = self.coco.loadCats(self.coco.getCatIds())
         self._classes = tuple([c["name"] for c in cats])#Get class names
         self.imgs = None
         self.name = name
@@ -49,11 +49,11 @@ class NFLDataset(Dataset):
         return [self.load_anno_from_ids(_ids) for _ids in self.ids]
     
     def load_anno_from_ids(self, id_):
-        im_ann = self.nfl.loadImgs(id_)[0] #retrieve img annotation
+        im_ann = self.coco.loadImgs(id_)[0] #retrieve img annotation
         width = im_ann["width"]
         height = im_ann["height"]
-        anno_ids = self.nfl.getAnnIds(imgIds=[int(id_)], iscrowd=False) #get annotation id
-        annotations = self.nfl.loadAnns(anno_ids)
+        anno_ids = self.coco.getAnnIds(imgIds=[int(id_)], iscrowd=False) #get annotation id
+        annotations = self.coco.loadAnns(anno_ids)
         objs = []
         for obj in annotations:
             x1 = np.max((0, obj["bbox"][0]))
